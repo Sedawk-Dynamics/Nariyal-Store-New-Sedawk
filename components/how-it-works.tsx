@@ -1,26 +1,32 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { PackageSearch, ChefHat, Truck } from "lucide-react"
+import { CalendarDays, Pencil, CookingPot, Store } from "lucide-react"
 
 const steps = [
   {
-    icon: PackageSearch,
+    icon: CalendarDays,
     step: "01",
-    title: "Choose Your Pack",
-    description: "Browse our range of fresh coconut packs — from single coconuts to weekly subscriptions that suit your lifestyle.",
+    title: "Choose Your Event",
+    description: "Tell us about your event — birthday party, corporate event, wedding, music festival, or brand promotion.",
   },
   {
-    icon: ChefHat,
+    icon: Pencil,
     step: "02",
-    title: "We Prepare It Fresh",
-    description: "Our team hand-picks the best tender coconuts from partner farms and hygienically packages them with care.",
+    title: "Customize Your Coconut",
+    description: "Pick from logo branding, couple names, birthday messages, QR codes, festival greetings, or custom stickers.",
   },
   {
-    icon: Truck,
+    icon: CookingPot,
     step: "03",
-    title: "Get It Delivered",
-    description: "Your order reaches your doorstep within 24 hours in insulated packaging that locks in freshness.",
+    title: "Fresh Preparation",
+    description: "Our team hand-crafts your personalized coconuts with care using premium A-grade tender coconuts.",
+  },
+  {
+    icon: Store,
+    step: "04",
+    title: "Delivery or Live Stall",
+    description: "Get your order delivered to your venue, or book a live Nariyal Store stall for an unforgettable experience.",
   },
 ]
 
@@ -35,13 +41,14 @@ export default function HowItWorks() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-accent font-semibold uppercase tracking-widest text-sm mb-3">Simple Process</p>
+          <p className="text-accent font-semibold uppercase tracking-widest text-sm mb-3">Event Branding Process</p>
           <h2 className="text-4xl sm:text-5xl font-serif font-bold text-primary-foreground text-balance">
             How It Works
           </h2>
+          <p className="text-primary-foreground/70 mt-4 max-w-xl mx-auto text-sm">From your idea to a fully branded coconut experience — in 4 simple steps.</p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-3 gap-8 relative">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
           {/* Connecting line */}
           <div className="hidden sm:block absolute top-16 left-1/3 right-1/3 h-px border-t-2 border-dashed border-accent/40" />
 

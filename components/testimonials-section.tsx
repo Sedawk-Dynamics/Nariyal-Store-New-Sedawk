@@ -1,50 +1,52 @@
 "use client"
 
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { Star, BadgeCheck } from "lucide-react"
+
+const AUTOSCROLL_INTERVAL_MS = 3000
 
 const testimonials = [
   {
     name: "Priya Sharma",
-    location: "Mumbai",
+    location: "Nehru Place, Delhi",
     rating: 5,
-    review: "Absolutely love the freshness! I wake up every morning to a fresh coconut delivered right at my door. The taste is incredible — like straight from the farm.",
+    review: "Visited the Epicuria outlet and it was such a premium experience! The coconut was super chilled, freshly opened right in front of me. The Coconut Lemonade is absolutely amazing.",
     initials: "PS",
   },
   {
     name: "Rahul Verma",
-    location: "Delhi",
+    location: "South Delhi",
     rating: 5,
-    review: "Best coconut water I've ever had. I've tried packaged ones but nothing beats this. My gym recovery has improved so much since I started ordering.",
+    review: "We booked Nariyal Store for our corporate event branding — 200 coconuts with our company logo. The quality and precision was top-notch. Everyone loved it!",
     initials: "RV",
   },
   {
-    name: "Anjali Nair",
-    location: "Bangalore",
+    name: "Anjali Mehta",
+    location: "Greater Kailash, Delhi",
     rating: 5,
-    review: "The weekly subscription is a game changer. Super convenient, always fresh, and the packaging keeps them cold for hours. Highly recommend!",
-    initials: "AN",
+    review: "Got personalized coconuts for our wedding with our names and date engraved. It was the most unique gifting idea! The guests were absolutely delighted.",
+    initials: "AM",
   },
   {
-    name: "Kiran Patel",
-    location: "Ahmedabad",
+    name: "Kiran Kapoor",
+    location: "Saket, Delhi",
     rating: 5,
-    review: "Finally found a source that delivers genuine tender coconuts with zero compromise on quality. The whole family is hooked now.",
-    initials: "KP",
+    review: "The Coconut Cold Coffee Frappe is unlike anything I have had before. So refreshing and creamy! The outlet at Nehru Place is my new go-to spot.",
+    initials: "KK",
   },
   {
     name: "Deepak Reddy",
-    location: "Hyderabad",
+    location: "Noida",
     rating: 5,
-    review: "Ordered the family box and it was a hit at our Sunday brunch! Every coconut was perfectly fresh and chilled. Will definitely order again.",
+    review: "Ordered the Tulsi Ginger Elixir and the Blue Lagoon Mocktail for a team lunch. Both were fresh, healthy, and beautifully presented. Nariyal Store never disappoints!",
     initials: "DR",
   },
   {
     name: "Meera Joshi",
-    location: "Pune",
+    location: "Lajpat Nagar, Delhi",
     rating: 5,
-    review: "I was skeptical at first but the quality blew me away. The coconuts arrive exactly as described — fresh, fragrant, and absolutely delicious!",
+    review: "The chilled tender coconut here is the best I have had in Delhi. Hygienically opened, perfectly sweet, and the staff is very professional. Highly recommended!",
     initials: "MJ",
   },
 ]
@@ -60,6 +62,32 @@ const colorPairs = [
 
 export default function TestimonialsSection() {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [isPaused, setIsPaused] = useState(false)
+
+  useEffect(() => {
+    if (isPaused) return
+
+    // Respect the visitor's motion preference — no automatic movement.
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+    if (reducedMotion.matches) return
+
+    const interval = setInterval(() => {
+      const track = scrollRef.current
+      if (!track) return
+
+      const cards = track.children
+      if (cards.length < 2) return
+
+      // Measure one card + gap from the rendered cards rather than hardcoding.
+      const step =
+        (cards[1] as HTMLElement).offsetLeft - (cards[0] as HTMLElement).offsetLeft
+
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4
+      track.scrollTo({ left: atEnd ? 0 : track.scrollLeft + step, behavior: "smooth" })
+    }, AUTOSCROLL_INTERVAL_MS)
+
+    return () => clearInterval(interval)
+  }, [isPaused])
 
   return (
     <section className="py-24 bg-secondary/20 overflow-hidden">
@@ -75,10 +103,22 @@ export default function TestimonialsSection() {
           <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground text-balance">
             What Our <span className="text-primary">Customers Say</span>
           </h2>
+          <p className="text-muted-foreground mt-4">Real experiences from our outlet visitors and event clients</p>
         </motion.div>
 
-        {/* Scrollable row */}
-        <div ref={scrollRef} className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: "none" }}>
+        {/* Auto-scrolling row — pauses on hover, focus, and touch */}
+        <div
+          ref={scrollRef}
+          aria-label="Customer testimonials"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+          className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+          style={{ scrollbarWidth: "none" }}
+        >
           {testimonials.map((t, i) => (
             <motion.div
               key={i}
@@ -119,7 +159,9 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Scroll hint */}
-        <p className="text-center text-xs text-muted-foreground mt-4">Scroll to see more reviews →</p>
+        <p className="text-center text-xs text-muted-foreground mt-4">
+          Hover to pause — or scroll to browse reviews →
+        </p>
       </div>
     </section>
   )

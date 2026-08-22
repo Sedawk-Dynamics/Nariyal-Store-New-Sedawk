@@ -20,7 +20,7 @@ const images = [
 
 export default function GallerySection() {
   return (
-    <section className="py-24 bg-background">
+    <section id="gallery" className="py-24 bg-background scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -31,9 +31,9 @@ export default function GallerySection() {
         >
           <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-3">@nariyalstore</p>
           <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground text-balance">
-            Stay Fresh <span className="text-primary">With Us</span>
+            The Nariyal <span className="text-primary">Experience</span>
           </h2>
-          <p className="text-muted-foreground mt-4">Follow us on Instagram for daily tropical freshness</p>
+          <p className="text-muted-foreground mt-4">Premium outlet, fresh coconuts, and handcrafted beverages — follow us on Instagram</p>
         </motion.div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
@@ -72,7 +72,7 @@ export default function GallerySection() {
           className="text-center mt-8"
         >
           <a
-            href="https://instagram.com"
+            href="https://instagram.com/nariyalstore"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 border-2 border-primary text-primary font-semibold px-6 py-3 rounded-2xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-sm"

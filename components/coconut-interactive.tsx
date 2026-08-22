@@ -5,11 +5,12 @@ import { motion } from "framer-motion"
 import { useState } from "react"
 
 const benefits = [
-  { id: 1, label: "Natural Electrolytes", angle: -120, desc: "Rehydrates 3x faster than water" },
-  { id: 2, label: "Potassium Rich", angle: -60, desc: "More potassium than a banana" },
-  { id: 3, label: "Refreshing", angle: 0, desc: "Crisp, light, naturally cooling" },
-  { id: 4, label: "Low Calorie", angle: 60, desc: "Only 45 kcal per serving" },
-  { id: 5, label: "Naturally Sweet", angle: 120, desc: "Zero artificial sweeteners ever" },
+  { id: 1, label: "Natural Electrolytes", angle: -120, desc: "Rehydrates faster than sports drinks" },
+  { id: 2, label: "Rich in Potassium & Magnesium", angle: -60, desc: "More potassium than a banana" },
+  { id: 3, label: "Supports Immunity", angle: 0, desc: "Boosts natural body defences" },
+  { id: 4, label: "Low Calorie, Fat-Free", angle: 60, desc: "Only ~45 kcal, zero fat" },
+  { id: 5, label: "No Artificial Sugar", angle: 120, desc: "Naturally sweet, zero additives" },
+  { id: 6, label: "Improves Digestion", angle: 180, desc: "Supports gut health naturally" },
 ]
 
 function degreesToRadians(deg: number) {
@@ -32,9 +33,9 @@ export default function CoconutInteractive() {
         >
           <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-3">Health Benefits</p>
           <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground text-balance">
-            Packed With <span className="text-primary">Nature&apos;s Goodness</span>
+            Why Tender Coconut <span className="text-primary">Wins</span>
           </h2>
-          <p className="text-muted-foreground mt-4">Hover over the benefits to learn more</p>
+          <p className="text-muted-foreground mt-4">Tender coconut water — one of nature&apos;s healthiest beverages. Hover to explore the benefits.</p>
         </motion.div>
 
         {/* Desktop: Radial layout */}

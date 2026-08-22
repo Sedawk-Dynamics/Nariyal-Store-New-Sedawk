@@ -6,9 +6,9 @@ import { useRef, useEffect, useState } from "react"
 
 const stats = [
   { value: 100, suffix: "%", label: "Natural" },
-  { value: 0, suffix: "g", label: "Added Sugar" },
-  { value: 24, suffix: "/7", label: "Hydration" },
-  { value: 10000, suffix: "+", label: "Happy Customers" },
+  { value: 119, suffix: "₹", label: "Starting Price" },
+  { value: 12, suffix: "+", label: "Beverages on Menu" },
+  { value: 6, suffix: "", label: "Branding Options" },
 ]
 
 function AnimatedNumber({ target, suffix }: { target: number; suffix: string }) {
@@ -43,7 +43,7 @@ function AnimatedNumber({ target, suffix }: { target: number; suffix: string }) 
 
 export default function StorySection() {
   return (
-    <section id="story" className="py-24 bg-background">
+    <section id="about" className="py-24 bg-background scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Image */}
@@ -56,8 +56,8 @@ export default function StorySection() {
           >
             <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/5]">
               <Image
-                src="/images/coconut-farm.png"
-                alt="Coconut farm — from palm to your hands"
+                src="/images/nariyal-outlet.png"
+                alt="Agrohome Nariyal Store outlet counter stacked with fresh tender coconuts at Epicuria Food Court, Nehru Place"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -66,7 +66,7 @@ export default function StorySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <p className="text-white font-serif text-xl font-bold text-balance">
-                  Rooted in Tradition, Delivered with Care
+                  Premium Outlet at Epicuria Food Court, Nehru Place
                 </p>
               </div>
             </div>
@@ -78,9 +78,9 @@ export default function StorySection() {
               transition={{ delay: 0.5 }}
               className="absolute -right-4 top-12 bg-white rounded-2xl shadow-xl px-5 py-4 hidden lg:block"
             >
-              <p className="text-xs text-muted-foreground font-medium mb-1">Harvest to Delivery</p>
-              <p className="text-2xl font-bold text-primary">24hrs</p>
-              <p className="text-xs text-muted-foreground">Guaranteed freshness</p>
+              <p className="text-xs text-muted-foreground font-medium mb-1">Coconuts Starting At</p>
+              <p className="text-2xl font-bold text-primary">₹119</p>
+              <p className="text-xs text-muted-foreground">Served chilled, freshly opened</p>
             </motion.div>
           </motion.div>
 
@@ -91,19 +91,19 @@ export default function StorySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.15 }}
           >
-            <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-4">Our Story</p>
+            <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-4">About Us</p>
             <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground text-balance mb-6">
-              From The Palm <span className="text-primary">To Your Hands</span>
+              India&apos;s Premium <span className="text-primary">Coconut Hydration</span> Brand
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed mb-10">
               <p>
-                We started Agrohome Nariyal Store with a simple mission — to bring the purest, freshest coconut water directly from carefully selected tropical farms to your doorstep.
+                Nariyal Store is a premium natural hydration and coconut-based FMCG brand committed to bringing the freshness of farm-picked tender coconuts to consumers across India.
               </p>
               <p>
-                Each tender coconut is hand-picked at the perfect stage of ripeness by expert farmers, hygienically packaged within hours, and shipped with insulation packs to ensure every sip is as fresh as the farm itself.
+                Our mission is to make healthy hydration convenient by offering premium A-grade tender coconuts, refreshing coconut beverages, and innovative coconut-based products. We source the finest coconuts directly from trusted farms and deliver them using strict hygiene and quality standards.
               </p>
               <p>
-                No processing, no added water, no artificial anything. Just nature&apos;s perfect drink, the way it was meant to be enjoyed.
+                Every coconut is hand-selected for sweetness, water quantity, and freshness — ensuring a premium experience for every customer. Visit us at Epicuria Food Court, Nehru Place Metro Station, New Delhi.
               </p>
             </div>
 
