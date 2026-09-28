@@ -1,103 +1,106 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Snowflake, ShieldCheck, Leaf, Droplets, Zap, Heart, FlameKindling, Dumbbell } from "lucide-react"
+import { useRef, useState } from "react"
+import Image from "next/image"
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
+import { Minus, Plus } from "lucide-react"
+
+import RevealText from "@/components/reveal-text"
 
 const benefits = [
   {
-    icon: Snowflake,
-    title: "Served Chilled",
-    description: "Every coconut is served chilled to deliver maximum freshness and a refreshing drinking experience.",
-    color: "bg-primary/10 text-primary",
-    border: "border-primary/20",
+    title: "Good for your body",
+    body: "Natural electrolytes, potassium and magnesium straight from the shell. It rehydrates, supports digestion and immunity, and asks nothing back.",
   },
   {
-    icon: ShieldCheck,
-    title: "Hygienically Cleaned",
-    description: "100% hygienically cleaned and freshly opened before serving. Ready to drink, zero compromise.",
-    color: "bg-accent/15 text-foreground",
-    border: "border-accent/30",
+    title: "For whatever you're into",
+    body: "After a workout, at a baraat, on a desk-lunch break, in the middle of a Delhi summer. Bring it anywhere you'd bring a cold drink, minus the guilt.",
   },
   {
-    icon: Droplets,
-    title: "Natural Electrolytes",
-    description: "Rich in natural electrolytes — potassium, magnesium — to replenish and rehydrate your body.",
-    color: "bg-primary/10 text-primary",
-    border: "border-primary/20",
+    title: "Sweet, not sugary",
+    body: "Sweetened by the coconut and nothing else. Zero artificial sugar, zero preservatives, naturally fat-free and low in calories.",
   },
   {
-    icon: Leaf,
-    title: "No Artificial Sugar",
-    description: "Low in calories, naturally fat-free, and absolutely zero artificial sugar or preservatives.",
-    color: "bg-accent/15 text-foreground",
-    border: "border-accent/30",
-  },
-  {
-    icon: Heart,
-    title: "Supports Immunity",
-    description: "Helps improve digestion, supports immunity, and keeps your body healthy from the inside out.",
-    color: "bg-primary/10 text-primary",
-    border: "border-primary/20",
-  },
-  {
-    icon: Dumbbell,
-    title: "Ideal After Workouts",
-    description: "Perfect summer drink and the best natural recovery drink after workouts and physical activity.",
-    color: "bg-accent/15 text-foreground",
-    border: "border-accent/30",
-  },
-  {
-    icon: Zap,
-    title: "Boost Energy",
-    description: "Excellent source of potassium and magnesium that boosts energy and supports muscle recovery.",
-    color: "bg-primary/10 text-primary",
-    border: "border-primary/20",
-  },
-  {
-    icon: FlameKindling,
-    title: "Natural Detox",
-    description: "Acts as a natural detox drink — cleansing your body and supporting a healthy lifestyle daily.",
-    color: "bg-accent/15 text-foreground",
-    border: "border-accent/30",
+    title: "Opened fresh, served chilled",
+    body: "Every coconut is hygienically cleaned, kept cold from farm to counter, and opened in front of you. Nothing sits pre-poured.",
   },
 ]
 
 export default function BenefitsSection() {
-  return (
-    <section id="why" className="py-24 bg-secondary/30 scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="text-sm font-semibold text-accent uppercase tracking-widest mb-3">Why Tender Coconut</p>
-          <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground text-balance">
-            Why Choose <span className="text-primary">Tender Coconut?</span>
-          </h2>
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">Tender coconut water is one of nature&apos;s healthiest beverages — naturally packed with everything your body needs.</p>
-        </motion.div>
+  const [open, setOpen] = useState(0)
+  const mediaRef = useRef<HTMLDivElement>(null)
+  const reducedMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: mediaRef, offset: ["start end", "end start"] })
+  const imgY = useTransform(scrollYProgress, [0, 1], reducedMotion ? ["0%", "0%"] : ["-6%", "6%"])
+  // Like the hero, the photo zooms in while the section scrolls through.
+  const imgScale = useTransform(scrollYProgress, [0, 1], reducedMotion ? [1, 1] : [1, 1.3])
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          {benefits.map((b, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: i * 0.12 }}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className={`bg-card rounded-3xl p-7 border ${b.border} hover:shadow-lg transition-shadow duration-300`}
-            >
-              <div className={`w-14 h-14 rounded-2xl ${b.color} flex items-center justify-center mb-5`}>
-                <b.icon size={26} />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-3">{b.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{b.description}</p>
-            </motion.div>
-          ))}
+  return (
+    <section id="why" className="scroll-mt-24 bg-cream pt-12 md:pt-[var(--section-pad)]">
+      <div className="grid grid-cols-1 items-center gap-3 px-2.5 md:grid-cols-[675fr_697.5fr] md:gap-[1.5625vw] md:px-[1.5625vw]">
+        <div className="py-9 md:px-[5.208vw] md:py-[2.5vw]">
+          <RevealText
+            mode="scroll"
+            text="Everything a drink should be. Nothing it usually is."
+            className="type-h3 mb-[clamp(24px,2.5vw,54px)] text-balance"
+          />
+
+          <div>
+            {benefits.map((benefit, i) => {
+              const isOpen = open === i
+              return (
+                <div key={benefit.title} className="border-b-[1.5px] border-ink">
+                  <h3>
+                    <button
+                      type="button"
+                      onClick={() => setOpen(isOpen ? -1 : i)}
+                      aria-expanded={isOpen}
+                      aria-controls={`benefit-${i}`}
+                      className={`type-body-lg flex w-full items-center justify-between gap-2 py-[clamp(16px,1.5625vw,34px)] text-left ${
+                        i === 0 ? "pt-0" : ""
+                      }`}
+                    >
+                      {benefit.title}
+                      {isOpen ? (
+                        <Minus aria-hidden="true" className="h-[max(16px,1.302vw)] w-[max(16px,1.302vw)] flex-none" />
+                      ) : (
+                        <Plus aria-hidden="true" className="h-[max(16px,1.302vw)] w-[max(16px,1.302vw)] flex-none" />
+                      )}
+                    </button>
+                  </h3>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        id={`benefit-${i}`}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="overflow-hidden"
+                      >
+                        <p className="type-mono pb-[clamp(16px,1.5625vw,34px)] text-[13px] md:text-[max(11px,.833vw)]">
+                          {benefit.body}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        <div ref={mediaRef} className="media-frame aspect-[697.5/750] max-h-[83.34vh] w-full">
+          <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-x-0 -top-[7.5%] h-[115%]">
+            <Image
+              src="/images/coconut-cafe-moment.jpg"
+              alt="A smiling woman sipping a chilled coconut drink at the Agrohome Nariyal Store counter"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              // Landscape photo in a near-square frame: keep her and the glass in view.
+              className="object-cover object-[68%_center]"
+            />
+          </motion.div>
         </div>
       </div>
     </section>

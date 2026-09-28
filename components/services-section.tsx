@@ -1,64 +1,62 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
 
+import RevealText from "@/components/reveal-text"
 import { services } from "@/lib/services-data"
+
+// 18-point sticker outline, alternating outer and inner radius.
+const STARBURST =
+  Array.from({ length: 36 }, (_, i) => {
+    const r = i % 2 === 0 ? 49 : 41
+    const a = (i / 36) * Math.PI * 2
+    return `${i === 0 ? "M" : "L"}${(50 + r * Math.cos(a)).toFixed(2)} ${(50 + r * Math.sin(a)).toFixed(2)}`
+  }).join(" ") + "Z"
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="scroll-mt-24 bg-background py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-            <span className="h-px w-6 bg-accent" aria-hidden="true" />
-            What We Do
-            <span className="h-px w-6 bg-accent" aria-hidden="true" />
-          </span>
-          <h2 className="mt-4 text-balance font-serif text-4xl font-bold leading-tight text-foreground sm:text-5xl">
-            Services <span className="text-primary">We Offer</span>
-          </h2>
-          <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground">
-            From weddings to doorstep delivery, every Nariyal experience is crafted around pure, fresh hydration.
-          </p>
-        </div>
+    <section id="services" className="scroll-mt-24 bg-white text-ink">
+      <div className="ink-divider" />
 
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((service) => (
-            <article
-              key={service.slug}
-              className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-lg"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <Image
-                  src={service.image}
-                  alt={service.alt}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary-foreground">
-                  {service.badge}
-                </span>
-              </div>
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-xl font-bold text-foreground">{service.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {service.teaser}
-                </p>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-colors duration-300 hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                >
-                  {service.ctaLabel}
-                  <ArrowRight
-                    size={15}
-                    aria-hidden="true"
-                    className="transition-transform duration-300 group-hover:translate-x-1"
+      <div className="flex flex-col gap-[clamp(32px,4.167vw,84px)] px-2.5 py-[clamp(36px,4.167vw,84px)] md:px-[1.5625vw]">
+        <RevealText text="Our Offerings." className="type-h2 text-center" />
+
+        <div className="relative">
+          <Link
+            href="/#contact"
+            className="absolute -top-[30px] right-4 z-[2] grid aspect-square w-[92px] -rotate-10 place-items-center transition-transform duration-200 hover:rotate-6 md:-top-[3.4vw] md:right-auto md:left-[21.1vw] md:w-[7.6vw] md:min-w-[84px]"
+          >
+            <svg viewBox="0 0 100 100" aria-hidden="true" className="absolute inset-0 h-full w-full">
+              <path d={STARBURST} fill="var(--color-lemon)" stroke="var(--color-ink)" strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+            <span className="relative max-w-[70%] text-center text-[max(9px,.833vw)] leading-[1.2] uppercase underline">
+              Book an Event
+            </span>
+          </Link>
+
+          <div className="no-scrollbar -mx-2.5 grid snap-x snap-mandatory auto-cols-[88%] grid-flow-col gap-3 overflow-x-auto scroll-px-2.5 px-2.5 md:mx-0 md:grid-flow-row md:grid-cols-4 md:gap-[1.5625vw] md:overflow-visible md:px-0">
+            {services.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                className="group flex snap-start flex-col gap-[15px]"
+              >
+                <div className="media-frame aspect-[450/457.5] w-full">
+                  <Image
+                    src={service.image}
+                    alt={service.alt}
+                    fill
+                    sizes="(min-width: 768px) 25vw, 88vw"
+                    className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
                   />
-                </Link>
-              </div>
-            </article>
-          ))}
+                </div>
+                <div className="flex flex-col gap-[7.5px]">
+                  <p className="type-mono text-[12px] uppercase md:text-[max(11px,.833vw)]">{service.badge}</p>
+                  <h3 className="type-body-lg text-[17px] md:text-[max(15px,1.198vw)]">{service.title}</h3>
+                  <p className="type-mono text-[13px] opacity-80 md:text-[max(11px,.833vw)]">{service.teaser}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>

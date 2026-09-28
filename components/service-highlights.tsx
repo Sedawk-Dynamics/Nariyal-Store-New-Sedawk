@@ -13,37 +13,35 @@ export default function ServiceHighlights({
   highlights: ServiceHighlight[]
 }) {
   return (
-    <section className="bg-background py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-3xl space-y-5 text-center text-lg leading-relaxed text-muted-foreground">
-          {body.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
+    <section className="bg-cream pt-[clamp(48px,6vw,110px)] text-ink">
+      <div className="mx-auto max-w-4xl space-y-6 px-5 text-center">
+        {body.map((paragraph) => (
+          <p key={paragraph} className="text-[max(17px,1.615vw)] leading-[1.25] tracking-[0.02em] text-balance">
+            {paragraph}
+          </p>
+        ))}
+      </div>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {highlights.map((highlight, i) => {
-            const Icon = iconMap[highlight.icon]
-            return (
-              <motion.div
-                key={highlight.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="rounded-3xl border border-border bg-card p-7 transition-shadow duration-300 hover:shadow-lg"
-              >
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <Icon size={26} aria-hidden="true" />
-                </div>
-                <h3 className="mb-3 text-lg font-bold text-foreground">{highlight.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {highlight.description}
-                </p>
-              </motion.div>
-            )
-          })}
-        </div>
+      <div className="mt-[clamp(48px,6vw,110px)] grid border-t-[1.5px] border-ink sm:grid-cols-2 lg:grid-cols-4">
+        {highlights.map((highlight, i) => {
+          const Icon = iconMap[highlight.icon]
+          return (
+            <motion.div
+              key={highlight.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="flex flex-col gap-4 border-b-[1.5px] border-ink p-[clamp(20px,2.2vw,40px)] sm:[&:nth-child(odd)]:border-r-[1.5px] lg:border-r-[1.5px] lg:last:border-r-0"
+            >
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-ink bg-lilac">
+                <Icon size={20} aria-hidden="true" />
+              </span>
+              <h3 className="type-body-lg">{highlight.title}</h3>
+              <p className="type-mono text-[13px] md:text-[max(11px,.833vw)]">{highlight.description}</p>
+            </motion.div>
+          )
+        })}
       </div>
     </section>
   )

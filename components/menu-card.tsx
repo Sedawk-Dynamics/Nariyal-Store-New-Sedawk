@@ -1,8 +1,8 @@
 "use client"
 
 import { motion, type Variants } from "framer-motion"
-import { Leaf } from "lucide-react"
 
+import BtnLabel from "@/components/btn-label"
 import type { MenuItem } from "@/lib/menu-data"
 
 export const menuContainerVariants: Variants = {
@@ -19,39 +19,31 @@ export default function MenuCard({ item }: { item: MenuItem }) {
   return (
     <motion.div
       variants={menuCardVariants}
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-      className="bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-300 group"
+      className="group -mr-[1.5px] -mb-[1.5px] flex flex-col border-[1.5px] border-ink bg-white"
     >
-      {/* Emoji / Icon display */}
-      <div className="relative bg-secondary/50 h-36 flex items-center justify-center overflow-hidden">
-        <span aria-hidden="true" className="text-7xl group-hover:scale-110 transition-transform duration-300">
+      <div className="relative flex h-40 items-center justify-center overflow-hidden border-b-[1.5px] border-ink bg-peach">
+        <span aria-hidden="true" className="text-7xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
           {item.emoji}
         </span>
-        <span className={`absolute top-3 left-3 text-xs font-bold px-3 py-1 rounded-full ${item.badgeColor}`}>
+        <span className="type-mono absolute top-3 left-3 border-[1.5px] border-ink bg-lilac px-2 py-1 text-[11px] uppercase">
           {item.badge}
-        </span>
-        <span className="absolute top-3 right-3 flex items-center gap-1 bg-white/80 backdrop-blur-sm text-primary text-[10px] font-semibold px-2 py-1 rounded-full">
-          <Leaf size={9} aria-hidden="true" /> Fresh
         </span>
       </div>
 
-      {/* Info */}
-      <div className="p-5">
-        <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
-          {item.category}
-        </p>
-        <h3 className="font-bold text-foreground text-sm leading-tight mb-2">{item.name}</h3>
-        <p className="text-xs text-muted-foreground mb-4 leading-relaxed">{item.description}</p>
-        <div className="flex items-center justify-between">
-          <span className="text-xl font-bold text-primary">₹{item.price}</span>
-          <a
-            href="/#contact"
-            aria-label={`Order ${item.name}`}
-            className="bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-xl hover:bg-primary/90 transition-colors shadow-sm"
-          >
-            Order Now
-          </a>
+      <div className="flex flex-1 flex-col gap-3 p-[clamp(14px,1.5625vw,24px)]">
+        <p className="type-mono text-[11px] uppercase opacity-80">{item.category}</p>
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="type-body-lg">{item.name}</h3>
+          <span className="type-mono shrink-0">₹{item.price}</span>
         </div>
+        <p className="type-mono flex-1 text-[12px]">{item.description}</p>
+        <a
+          href="/#contact"
+          aria-label={`Order ${item.name}`}
+          className="btn-vibe btn-vibe--outline mt-2 w-full !py-3"
+        >
+          <BtnLabel arrow={false}>Order Now</BtnLabel>
+        </a>
       </div>
     </motion.div>
   )

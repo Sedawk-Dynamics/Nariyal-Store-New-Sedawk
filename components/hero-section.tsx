@@ -1,125 +1,78 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { cn } from "@/lib/utils"
+import Link from "next/link"
+import { motion, useMotionTemplate, useReducedMotion, useScroll, useTransform } from "framer-motion"
 
-const AUTOPLAY_INTERVAL_MS = 5500
-
-const SLIDES = [
-  {
-    src: "/images/hero-banners/hero-slide-1.jpeg",
-    alt: "Every occasion deserves something pure - Nariyal Store celebration coconuts for Baraat, Haldi, Mehendi, and more",
-  },
-  {
-    src: "/images/hero-banners/hero-slide-2.jpeg",
-    alt: "Pure Nariyal, Pure Refreshment - Nariyal Store outlet with fresh coconut menu and chilled beverages",
-  },
-  {
-    src: "/images/hero-banners/hero-slide-3.jpeg",
-    alt: "Pure Hydration, Pure Energy - Baraat Swagat, store visits, and Nariyal delivered to your doorstep",
-  },
-]
+import BtnLabel from "@/components/btn-label"
+import RevealText from "@/components/reveal-text"
+import { onIntroDone } from "@/lib/intro"
 
 export default function HeroSection() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const reducedMotion = useReducedMotion()
+  // Entrances wait for the entry loader's wipe (or start at once when there is none).
+  const [ready, setReady] = useState(false)
+  useEffect(() => onIntroDone(() => setReady(true)), [])
 
-  const goToSlide = useCallback((index: number) => {
-    setActiveIndex((index + SLIDES.length) % SLIDES.length)
-  }, [])
-
-  const goToNext = useCallback(() => {
-    goToSlide(activeIndex + 1)
-  }, [activeIndex, goToSlide])
-
-  const goToPrevious = useCallback(() => {
-    goToSlide(activeIndex - 1)
-  }, [activeIndex, goToSlide])
-
-  useEffect(() => {
-    if (isPaused) return
-
-    timeoutRef.current = setTimeout(() => {
-      setActiveIndex((current) => (current + 1) % SLIDES.length)
-    }, AUTOPLAY_INTERVAL_MS)
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
-  }, [activeIndex, isPaused])
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] })
+  const still = reducedMotion ? 0 : 1
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", `${12 * still}%`])
+  // The photo keeps zooming in as the hero scrolls away.
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1 + 0.3 * still])
+  // As the page scrolls, the full-bleed hero tucks into an inset card with rounded corners.
+  const inset = useTransform(scrollYProgress, [0, 0.35], [0, 10 * still])
+  const radius = useTransform(scrollYProgress, [0, 0.35], [0, 34 * still])
+  const clipPath = useMotionTemplate`inset(0px ${inset}px 0px ${inset}px round 0px 0px ${radius}px ${radius}px)`
 
   return (
-    <section
-      id="home"
-      aria-label="Nariyal Store hero banner"
-      aria-roledescription="carousel"
-      className="relative isolate mt-16 overflow-hidden bg-background sm:mt-20"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocus={() => setIsPaused(true)}
-      onBlur={() => setIsPaused(false)}
-    >
-      <div className="relative mx-auto w-full overflow-hidden">
-        {SLIDES.map((slide, index) => (
-          <div
-            key={slide.src}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`Slide ${index + 1} of ${SLIDES.length}`}
-            aria-hidden={index !== activeIndex}
-            className={cn(
-              "transition-opacity duration-700 ease-in-out",
-              index === activeIndex ? "relative block opacity-100" : "absolute inset-0 opacity-0",
-            )}
-          >
-            <Image
-              src={slide.src || "/placeholder.svg"}
-              alt={slide.alt}
-              width={1536}
-              height={2048}
-              priority={index === 0}
-              sizes="100vw"
-              className="block h-auto w-full object-contain object-center"
+    <section ref={sectionRef} id="home" aria-label="Nariyal Store" className="relative bg-cream">
+      <motion.div style={{ clipPath }} className="relative isolate overflow-hidden bg-[#7d6b5b] text-cream">
+        <motion.div aria-hidden="true" style={{ y: bgY, scale: bgScale }} className="absolute inset-x-0 -top-[10%] -z-10 h-[120%]">
+          <Image
+            src="/images/lifestyle-beach.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_35%]"
+          />
+        </motion.div>
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/20" />
+
+        <div className="gutter grid min-h-[100svh] grid-rows-[1fr_auto] pt-[calc(var(--header-height)+36px+2rem)] pb-[clamp(1.5rem,4vh,2.5rem)]">
+          <div className="self-center text-center md:text-left">
+            <RevealText
+              as="h1"
+              text="Drink pure."
+              mode="scatter"
+              onMount
+              play={ready}
+              className="type-display text-[clamp(3.5rem,12.3vw,30rem)] leading-[1.05]"
             />
+            <motion.p
+              initial={reducedMotion ? false : { opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+              animate={ready ? { opacity: 1, clipPath: "inset(0 0% 0 0)" } : undefined}
+              transition={{ duration: 0.8, delay: 0.55, ease: "easeOut" }}
+              className="type-display mt-[clamp(.5rem,1vw,.75rem)] text-[clamp(1.125rem,2.25vw,2rem)]"
+            >
+              Tender coconut water your body agrees with.
+            </motion.p>
           </div>
-        ))}
 
-        <button
-          type="button"
-          onClick={goToPrevious}
-          aria-label="Previous hero slide"
-          className="absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-foreground shadow-sm transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:left-4 sm:h-11 sm:w-11"
-        >
-          <ChevronLeft className="h-5 w-5" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          onClick={goToNext}
-          aria-label="Next hero slide"
-          className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-background/70 text-foreground shadow-sm transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:right-4 sm:h-11 sm:w-11"
-        >
-          <ChevronRight className="h-5 w-5" aria-hidden="true" />
-        </button>
-
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 sm:bottom-5">
-          {SLIDES.map((slide, index) => (
-            <button
-              key={slide.src}
-              type="button"
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              aria-current={index === activeIndex}
-              className={cn(
-                "h-2 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                index === activeIndex ? "w-6 bg-primary" : "w-2 bg-background/70 hover:bg-background",
-              )}
-            />
-          ))}
+          <motion.div
+            initial={reducedMotion ? false : { opacity: 0, scale: 0.6 }}
+            animate={ready ? { opacity: 1, scale: 1 } : undefined}
+            transition={{ type: "spring", stiffness: 300, damping: 16, delay: 0.8 }}
+            className="justify-self-center"
+          >
+            <Link href="/menu" className="btn-vibe">
+              <BtnLabel>Shop Now</BtnLabel>
+            </Link>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

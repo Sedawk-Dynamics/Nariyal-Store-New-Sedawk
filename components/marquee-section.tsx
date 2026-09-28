@@ -1,33 +1,15 @@
-"use client"
+import CoconutGlyph from "@/components/coconut-glyph"
+import Marquee from "@/components/marquee"
 
-const items = [
-  "PREMIUM TENDER COCONUT",
-  "SERVED CHILLED",
-  "FRESHLY OPENED",
-  "HYGIENICALLY CLEANED",
-  "READY TO DRINK",
-  "PERSONALIZED BRANDING",
-  "EVENT SERVICES",
-  "OUTLET AT NEHRU PLACE",
-  "COCONUT BEVERAGES",
-  "HEALTHY MOCKTAILS",
-  "COCONUT SMOOTHIES",
-  "ZERO PRESERVATIVES",
-]
-
-export default function MarqueeSection() {
+export default function MarqueeSection({ text = "Farm Picked, Not Factory Made" }: { text?: string }) {
   return (
-    <section className="bg-primary py-4 overflow-hidden">
-      <div className="flex items-center">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...items, ...items].map((item, i) => (
-            <div key={i} className="flex items-center shrink-0 px-6">
-              <span className="text-primary-foreground font-bold text-sm tracking-[0.15em]">{item}</span>
-              <span className="ml-6 text-accent font-bold text-lg">✦</span>
-            </div>
-          ))}
-        </div>
-      </div>
+    <section aria-label={text} className="border-y-[1.5px] border-ink bg-cream py-[clamp(20px,2.5vw,36px)] text-ink">
+      <Marquee gap="clamp(28px,4.2vw,60px)" speed={40} repeat={4}>
+        <span className="inline-flex items-center gap-[clamp(28px,4.2vw,60px)] text-[13px] leading-tight md:text-[max(13px,.95vw)]">
+          {text}
+          <CoconutGlyph className="h-[max(26px,2.57vw)] w-[max(26px,2.57vw)] text-ink" />
+        </span>
+      </Marquee>
     </section>
   )
 }

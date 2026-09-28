@@ -24,10 +24,8 @@ export default function MenuExplorer() {
             type="button"
             onClick={() => setActiveCategory(cat)}
             aria-pressed={activeCategory === cat}
-            className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-              activeCategory === cat
-                ? "bg-primary text-primary-foreground shadow-md"
-                : "bg-secondary text-foreground hover:bg-primary/10 hover:text-primary"
+            className={`type-mono border-[1.5px] border-ink px-4 py-2.5 uppercase transition-colors duration-200 ${
+              activeCategory === cat ? "bg-ink text-cream" : "bg-transparent text-ink hover:bg-lilac"
             }`}
           >
             {cat}
@@ -41,7 +39,7 @@ export default function MenuExplorer() {
         variants={menuContainerVariants}
         initial="hidden"
         animate="visible"
-        className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+        className="grid pr-[1.5px] pb-[1.5px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       >
         {filtered.map((item) => (
           <MenuCard key={item.name} item={item} />

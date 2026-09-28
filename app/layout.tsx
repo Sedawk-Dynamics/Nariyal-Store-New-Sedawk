@@ -1,18 +1,21 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google'
+import { Fraunces, Space_Mono } from 'next/font/google'
+import IntroLoader from '@/components/intro-loader'
+import SmoothScroll from '@/components/smooth-scroll'
+import { INTRO_HEAD_SCRIPT } from '@/lib/intro'
 import './globals.css'
 
-const plusJakarta = Plus_Jakarta_Sans({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  variable: '--font-plus-jakarta',
-  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-fraunces',
+  axes: ['SOFT', 'opsz'],
 })
 
-const playfair = Playfair_Display({
+const spaceMono = Space_Mono({
   subsets: ['latin'],
-  variable: '--font-playfair',
-  weight: ['400', '600', '700', '800'],
+  variable: '--font-space-mono',
+  weight: ['400', '700'],
 })
 
 export const metadata: Metadata = {
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: 'light',
-  themeColor: '#2D5A1B',
+  themeColor: '#FFF1E7',
 }
 
 export default function RootLayout({
@@ -34,8 +37,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${playfair.variable} bg-background`}>
-      <body className="antialiased font-sans">
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${spaceMono.variable} bg-background`}
+      // The intro head script may add a class to <html> before React hydrates.
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_HEAD_SCRIPT }} />
+      </head>
+      <body className="antialiased">
+        <SmoothScroll />
+        <IntroLoader />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

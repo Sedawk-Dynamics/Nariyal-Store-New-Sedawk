@@ -4,8 +4,8 @@ import { notFound } from "next/navigation"
 import BrandingBanner from "@/components/branding-banner"
 import EventShowcase from "@/components/event-showcase"
 import Footer from "@/components/footer"
+import MarqueeSection from "@/components/marquee-section"
 import Navbar from "@/components/navbar"
-import NewsletterSection from "@/components/newsletter-section"
 import PageHero from "@/components/page-hero"
 import ServiceHighlights from "@/components/service-highlights"
 import { eventsForService } from "@/lib/events-data"
@@ -50,6 +50,7 @@ export default async function ServicePage({ params }: Params) {
         primaryCta={service.primaryCta}
         secondaryCta={service.secondaryCta}
       />
+      <MarqueeSection text={service.title} />
       <ServiceHighlights body={service.body} highlights={service.highlights} />
       <EventShowcase
         events={relatedEvents}
@@ -57,7 +58,6 @@ export default async function ServicePage({ params }: Params) {
         subheading={service.eventsSubheading}
       />
       {service.showBranding && <BrandingBanner ctaLabel={service.primaryCta.label} />}
-      <NewsletterSection />
       <Footer />
     </main>
   )

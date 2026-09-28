@@ -1,6 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import BtnLabel from "@/components/btn-label"
+
 type PageHeroProps = {
   eyebrow: string
   headingLead: string
@@ -24,40 +26,31 @@ export default function PageHero({
   secondaryCta,
 }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-secondary/25 pt-28 pb-16 sm:pt-36 sm:pb-24">
+    <section className="bg-cream pt-[clamp(48px,6vw,110px)] pb-[clamp(48px,6vw,110px)] text-ink">
       <div
-        aria-hidden="true"
-        className="absolute -left-24 top-10 -z-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute -right-24 bottom-0 -z-10 h-72 w-72 rounded-full bg-accent/15 blur-3xl"
-      />
-
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-accent">{eyebrow}</p>
-          <h1 className="mt-4 text-balance font-serif text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-            {headingLead} <span className="text-primary">{headingHighlight}</span>
+        className={`grid items-center gap-10 px-5 md:px-[1.5625vw] ${
+          image ? "lg:grid-cols-2 lg:gap-[1.5625vw]" : "text-center"
+        }`}
+      >
+        <div className={image ? "lg:px-[3vw]" : "mx-auto max-w-5xl"}>
+          <p className="type-mono uppercase">{eyebrow}</p>
+          <h1 className="type-display mt-4 text-[clamp(2.75rem,7vw,7.5rem)] leading-[1.02] text-balance">
+            {headingLead} <span className="text-plum">{headingHighlight}</span>
           </h1>
-          <p className="mt-6 text-pretty text-lg leading-relaxed text-muted-foreground">{intro}</p>
+          <p className={`type-body-lg mt-6 text-pretty ${image ? "max-w-xl" : "mx-auto max-w-2xl"}`}>
+            {intro}
+          </p>
 
           {(primaryCta || secondaryCta) && (
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className={`mt-9 flex flex-wrap gap-3 ${image ? "" : "justify-center"}`}>
               {primaryCta && (
-                <Link
-                  href={primaryCta.href}
-                  className="rounded-2xl bg-primary px-7 py-3.5 text-sm font-bold text-primary-foreground shadow-lg transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                >
-                  {primaryCta.label}
+                <Link href={primaryCta.href} className="btn-vibe">
+                  <BtnLabel>{primaryCta.label}</BtnLabel>
                 </Link>
               )}
               {secondaryCta && (
-                <Link
-                  href={secondaryCta.href}
-                  className="rounded-2xl border-2 border-primary px-7 py-3.5 text-sm font-bold text-primary transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                >
-                  {secondaryCta.label}
+                <Link href={secondaryCta.href} className="btn-vibe btn-vibe--outline">
+                  <BtnLabel arrow={false}>{secondaryCta.label}</BtnLabel>
                 </Link>
               )}
             </div>
@@ -65,7 +58,7 @@ export default function PageHero({
         </div>
 
         {image && (
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2.5rem] border border-border/60 shadow-2xl shadow-primary/10">
+          <div className="media-frame aspect-[4/3] w-full">
             <Image
               src={image}
               alt={alt ?? ""}
@@ -73,10 +66,6 @@ export default function PageHero({
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-foreground/25 via-transparent to-transparent"
             />
           </div>
         )}

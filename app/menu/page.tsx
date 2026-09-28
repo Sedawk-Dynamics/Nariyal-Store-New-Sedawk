@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import Footer from "@/components/footer"
 import MenuExplorer from "@/components/menu-explorer"
 import Navbar from "@/components/navbar"
-import NewsletterSection from "@/components/newsletter-section"
 import PageHero from "@/components/page-hero"
 import { menuItems } from "@/lib/menu-data"
 
@@ -26,16 +25,15 @@ export default function MenuPage() {
         secondaryCta={{ label: "Visit Our Store", href: "/services/nariyal-store" }}
       />
 
-      <section className="bg-background py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="bg-cream pb-16 sm:pb-24">
+        <div className="px-5 md:px-[1.5625vw]">
           <MenuExplorer />
-          <p className="mt-14 text-center text-lg font-serif italic text-primary/70">
+          <p className="type-h3 mt-16 text-center text-balance">
             &ldquo;Nature&apos;s Hydration — Crafted for Your Health&rdquo;
           </p>
         </div>
       </section>
 
-      <NewsletterSection />
       <Footer />
     </main>
   )
