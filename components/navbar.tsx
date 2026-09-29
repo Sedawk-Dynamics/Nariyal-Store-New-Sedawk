@@ -24,7 +24,7 @@ const announcements = [
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Menu" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ]
 
 const offerings = services.map((service) => ({

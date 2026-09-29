@@ -43,6 +43,8 @@ const WIDTH_END = NORM * 0.08
 // How long the header glide runs after the loader is gone (matches globals.css).
 const COMPOSE_MS = 1100
 const FAILSAFE_MS = 4000
+// Longest the cover waits for the hero photo and fonts before unwinding anyway.
+const READY_CAP_MS = 3000
 
 /** Cubic-bezier easing solver (x1, y1, x2, y2), like CSS cubic-bezier(). */
 function bezier(x1: number, y1: number, x2: number, y2: number) {
@@ -102,7 +104,7 @@ export default function IntroLoader() {
     let raf = 0
     let finished = false
     let composed = false
-    const start = performance.now()
+    let start = 0
 
     const compose = () => {
       if (composed) return
@@ -137,10 +139,25 @@ export default function IntroLoader() {
       }
       raf = requestAnimationFrame(frame)
     }
-    raf = requestAnimationFrame(frame)
-
-    // Never leave the page stuck behind the cover.
-    timers.push(setTimeout(finish, FAILSAFE_MS))
+    // Only unwind once the hero photo and fonts are ready, so the wipe reveals a
+    // finished page rather than an empty box; slow connections wait at most READY_CAP_MS.
+    const heroReady = new Promise<void>((resolve) => {
+      const img = document.querySelector<HTMLImageElement>("#home img")
+      if (!img || (img.complete && img.naturalWidth)) return resolve()
+      img.addEventListener("load", () => resolve(), { once: true })
+      img.addEventListener("error", () => resolve(), { once: true })
+    }).then(() => document.querySelector<HTMLImageElement>("#home img")?.decode().catch(() => {}))
+    let begun = false
+    const begin = () => {
+      if (begun) return
+      begun = true
+      start = performance.now()
+      raf = requestAnimationFrame(frame)
+      // Never leave the page stuck behind the cover.
+      timers.push(setTimeout(finish, FAILSAFE_MS))
+    }
+    Promise.all([heroReady, document.fonts?.ready]).then(begin, begin)
+    timers.push(setTimeout(begin, READY_CAP_MS))
 
     return () => {
       cancelAnimationFrame(raf)

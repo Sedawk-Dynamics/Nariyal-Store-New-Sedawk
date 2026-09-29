@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Fraunces, Space_Mono } from 'next/font/google'
 import IntroLoader from '@/components/intro-loader'
+import PageTransition from '@/components/page-transition'
 import SmoothScroll from '@/components/smooth-scroll'
 import { INTRO_HEAD_SCRIPT } from '@/lib/intro'
 import './globals.css'
@@ -49,6 +50,7 @@ export default function RootLayout({
       <body className="antialiased">
         <SmoothScroll />
         <IntroLoader />
+        <PageTransition />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

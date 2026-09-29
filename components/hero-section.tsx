@@ -31,7 +31,7 @@ export default function HeroSection() {
       <motion.div style={{ clipPath }} className="relative isolate overflow-hidden bg-[#7d6b5b] text-cream">
         <motion.div aria-hidden="true" style={{ y: bgY, scale: bgScale }} className="absolute inset-x-0 -top-[10%] -z-10 h-[120%]">
           <Image
-            src="/images/lifestyle-beach.png"
+            src="/images/lifestyle-beach.webp"
             alt=""
             fill
             priority

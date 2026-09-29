@@ -93,7 +93,7 @@ export default function BenefitsSection() {
         <div ref={mediaRef} className="media-frame aspect-[697.5/750] max-h-[83.34vh] w-full">
           <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-x-0 -top-[7.5%] h-[115%]">
             <Image
-              src="/images/coconut-cafe-moment.jpg"
+              src="/images/coconut-cafe-moment.webp"
               alt="A smiling woman sipping a chilled coconut drink at the Agrohome Nariyal Store counter"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"

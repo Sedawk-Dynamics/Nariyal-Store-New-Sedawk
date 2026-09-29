@@ -5,13 +5,13 @@ import RevealText from "@/components/reveal-text"
 import { SocialCircles } from "@/components/social-icons"
 
 const images = [
-  { src: "/images/gallery-1.png", alt: "Person enjoying fresh coconut water after a workout" },
-  { src: "/images/gallery-2.png", alt: "Fresh green coconuts with tropical leaves" },
-  { src: "/images/gallery-3.png", alt: "Friends enjoying coconut water at the beach" },
-  { src: "/images/gallery-4.png", alt: "Coconut water pouring into a glass" },
-  { src: "/images/gallery-5.png", alt: "Woman in a yoga pose with coconut water" },
-  { src: "/images/gallery-6.png", alt: "Coconut vendor on an Indian street" },
-  { src: "/images/nariyal-outlet.png", alt: "Nariyal Store outlet counter stacked with tender coconuts" },
+  { src: "/images/gallery-1.webp", alt: "Person enjoying fresh coconut water after a workout" },
+  { src: "/images/gallery-2.webp", alt: "Fresh green coconuts with tropical leaves" },
+  { src: "/images/gallery-3.webp", alt: "Friends enjoying coconut water at the beach" },
+  { src: "/images/gallery-4.webp", alt: "Coconut water pouring into a glass" },
+  { src: "/images/gallery-5.webp", alt: "Woman in a yoga pose with coconut water" },
+  { src: "/images/gallery-6.webp", alt: "Coconut vendor on an Indian street" },
+  { src: "/images/nariyal-outlet.webp", alt: "Nariyal Store outlet counter stacked with tender coconuts" },
 ]
 
 export default function GallerySection() {

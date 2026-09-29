@@ -1,33 +1,49 @@
 /**
- * Coordination between the entry loader and the page entrances.
+ * Coordination between the page covers and the page entrances.
+ *
+ * Two covers can hide the page: the first-visit entry loader, and the wave
+ * page transition between routes. Each fires REVEAL_EVENT partway through its
+ * reveal; entrances wait for it (via onIntroDone) so they play as the page is
+ * uncovered, not hidden behind the cover.
  *
  * An inline script in the document head adds LOADING_CLASS before first paint
  * when the loader will play (first page view of the session, motion allowed).
- * The loader fires DONE_EVENT halfway through its wipe; hero entrances wait
- * for it so they play as the page is revealed, not hidden behind the cover.
  */
 export const LOADING_CLASS = "nariyal-loading"
 export const LIVE_CLASS = "nariyal-loader-live"
 export const COMPOSE_CLASS = "nariyal-compose"
-export const DONE_EVENT = "nariyal:loader-done"
+/** Present on <html> while the page transition covers the screen. */
+export const TRANSITION_CLASS = "nariyal-pt-covered"
+export const REVEAL_EVENT = "nariyal:revealed"
 export const SEEN_KEY = "nariyal-loader-seen"
 
-let done = false
+let loaderDone = false
 
 export function markIntroDone() {
-  if (done) return
-  done = true
-  document.dispatchEvent(new CustomEvent(DONE_EVENT))
+  if (loaderDone) return
+  loaderDone = true
+  document.dispatchEvent(new CustomEvent(REVEAL_EVENT))
 }
 
-/** Runs `callback` once the intro no longer hides the page (immediately if there is no intro). */
+/** Called by the page transition once its cover starts lifting. */
+export function markTransitionRevealed() {
+  document.documentElement.classList.remove(TRANSITION_CLASS)
+  document.dispatchEvent(new CustomEvent(REVEAL_EVENT))
+}
+
+function isCovered() {
+  const root = document.documentElement.classList
+  return (root.contains(LOADING_CLASS) && !loaderDone) || root.contains(TRANSITION_CLASS)
+}
+
+/** Runs `callback` once no cover hides the page (immediately if none does). */
 export function onIntroDone(callback: () => void): () => void {
-  if (done || !document.documentElement.classList.contains(LOADING_CLASS)) {
+  if (!isCovered()) {
     callback()
     return () => {}
   }
-  document.addEventListener(DONE_EVENT, callback, { once: true })
-  return () => document.removeEventListener(DONE_EVENT, callback)
+  document.addEventListener(REVEAL_EVENT, callback, { once: true })
+  return () => document.removeEventListener(REVEAL_EVENT, callback)
 }
 
 /** Head script: decide on the cover before first paint. Kept tiny and dependency-free. */

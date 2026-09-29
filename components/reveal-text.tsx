@@ -1,8 +1,9 @@
 "use client"
 
-import { Fragment, useRef } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion"
 
+import { onIntroDone } from "@/lib/intro"
 import { cn } from "@/lib/utils"
 
 type Tag = "h1" | "h2" | "h3" | "p"
@@ -21,6 +22,8 @@ type RevealTextProps = {
   onMount?: boolean
   /** With `onMount`: hold the letters hidden until this turns true. */
   play?: boolean
+  /** Play on mount, but only once any page cover (loader or page transition) has lifted. */
+  afterReveal?: boolean
   delay?: number
   /** Seconds between letters ("type") or the spread of the shuffle ("scatter"). */
   speed?: number
@@ -52,11 +55,16 @@ export default function RevealText({
   mode = "type",
   onMount = false,
   play = true,
+  afterReveal = false,
   delay = 0,
   speed,
 }: RevealTextProps) {
   const ref = useRef<HTMLHeadingElement>(null)
   const reducedMotion = useReducedMotion()
+  const [revealed, setRevealed] = useState(!afterReveal)
+  useEffect(() => {
+    if (afterReveal) return onIntroDone(() => setRevealed(true))
+  }, [afterReveal])
   // Fills while the heading travels from low in the viewport to just above the middle.
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.9", "start 0.4"] })
 
@@ -69,8 +77,8 @@ export default function RevealText({
   let index = 0
   const trigger = scrollMode
     ? {}
-    : onMount
-      ? { animate: play ? "shown" : "hidden" }
+    : onMount || afterReveal
+      ? { animate: play && revealed ? "shown" : "hidden" }
       : { whileInView: "shown", viewport: { once: true, margin: "-10% 0px" } }
 
   const renderChar = (char: string, i: number) => {

@@ -18,7 +18,7 @@ export const events: EventItem[] = [
     title: "Birthday Parties",
     description:
       "Make celebrations unforgettable with customized birthday message coconuts for every guest.",
-    image: "/images/events/birthday-parties.png",
+    image: "/images/events/birthday-parties.webp",
     alt: "Friends celebrating a birthday outdoors with fresh coconut drinks and string lights",
     services: ["celebrations"],
   },
@@ -27,7 +27,7 @@ export const events: EventItem[] = [
     title: "Corporate Events",
     description:
       "Brand your coconuts with your company logo for product launches, office events, and team gatherings.",
-    image: "/images/events/corporate-events.png",
+    image: "/images/events/corporate-events.webp",
     alt: "Professionals networking at a corporate event with a branded coconut beverage station",
     services: ["corporate-events"],
   },
@@ -36,7 +36,7 @@ export const events: EventItem[] = [
     title: "Weddings & Celebrations",
     description:
       "Personalized coconuts with couple names, wedding dates, and beautiful bridal themes.",
-    image: "/images/events/weddings-celebrations.png",
+    image: "/images/events/weddings-celebrations.webp",
     alt: "Elegant wedding celebration with a decorated tray of tender coconuts",
     services: ["celebrations"],
   },
@@ -45,7 +45,7 @@ export const events: EventItem[] = [
     title: "Music Festivals & Concerts",
     description:
       "Live coconut stall setups with custom branding for large-scale music and cultural festivals.",
-    image: "/images/events/music-festivals.png",
+    image: "/images/events/music-festivals.webp",
     alt: "Outdoor music festival crowd at sunset with fresh coconut drinks being served",
     services: ["celebrations", "corporate-events"],
   },
@@ -54,7 +54,7 @@ export const events: EventItem[] = [
     title: "College Events",
     description:
       "Fun, healthy, and Instagrammable coconut experiences for college fests and farewell parties.",
-    image: "/images/events/college-events.png",
+    image: "/images/events/college-events.webp",
     alt: "College students enjoying fresh coconut drinks at a vibrant campus fest",
     services: ["celebrations"],
   },
@@ -62,7 +62,7 @@ export const events: EventItem[] = [
     icon: "Building2",
     title: "Hotel & Mall Collaborations",
     description: "Set up premium Nariyal Store kiosks inside hotels, malls, and food courts.",
-    image: "/images/events/hotel-mall-collaborations.png",
+    image: "/images/events/hotel-mall-collaborations.webp",
     alt: "Luxury hotel kiosk serving fresh tender coconuts on a marble counter",
     services: ["corporate-events", "nariyal-store"],
   },
@@ -71,7 +71,7 @@ export const events: EventItem[] = [
     title: "Brand Promotions",
     description:
       "QR code printing and custom sticker coconuts for powerful experiential brand marketing.",
-    image: "/images/events/brand-promotions.png",
+    image: "/images/events/brand-promotions.webp",
     alt: "Experiential marketing booth with a branded coconut drink station",
     services: ["corporate-events"],
   },
@@ -80,7 +80,7 @@ export const events: EventItem[] = [
     title: "Private Celebrations",
     description:
       "Anniversary dinners, housewarmings, Diwali gifting — personalized for every private occasion.",
-    image: "/images/events/private-celebrations.png",
+    image: "/images/events/private-celebrations.webp",
     alt: "Intimate garden celebration with friends enjoying premium coconut drinks under string lights",
     services: ["celebrations", "doorstep"],
   },

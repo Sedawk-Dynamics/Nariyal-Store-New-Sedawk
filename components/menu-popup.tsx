@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { X } from "lucide-react"
 
 const POSTER = {
-  src: "/images/menu/pure-coconut-menu.jpg",
+  src: "/images/menu/pure-coconut-menu.webp",
   width: 732,
   height: 1100,
   alt: "Pure Coconut Experience menu. Refreshing: Coconut Lemonade, Tender Coconut Mojito, Coconut Fruit Punch, Coconut Detox Drink, Coconut Shikanji. Wellness: Coconut Chia Fresca, Herbal Coconut Cooler, Tulsi Ginger Elixir. Indulgent: Coconut Smoothie, Coconut Iced Coffee, Coconut Cold Coffee Frappe, Blue Lagoon Coconut Mocktail.",

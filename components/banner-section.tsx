@@ -16,7 +16,7 @@ export default function BannerSection() {
         <div ref={ref} className="media-frame aspect-video max-h-[83.34vh] w-full">
           <motion.div style={{ y }} className="absolute inset-x-0 -top-[6%] h-[112%]">
             <Image
-              src="/images/hero-banners/nariyal-store-kiosk.jpg"
+              src="/images/hero-banners/nariyal-store-kiosk.webp"
               alt="The Nariyal Store kiosk in a food court, with its lit sign and chilled drinks fridge"
               fill
               sizes="100vw"

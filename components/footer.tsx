@@ -142,6 +142,17 @@ export default function Footer() {
       <div className="type-mono flex flex-col items-center gap-3 px-5 text-center text-[12px]">
         <p>Best served chilled. Freshly opened, every time.</p>
         <p>&copy; {new Date().getFullYear()} Agrohome Nariyal Store. All rights reserved.</p>
+        <p>
+          Designed by{" "}
+          <a
+            href="https://webel.io/"
+            target="_blank"
+            rel="noopener"
+            className="font-bold text-leaf underline underline-offset-[0.25em] transition-colors hover:text-leaf-deep"
+          >
+            Webelio
+          </a>
+        </p>
       </div>
       <MenuPopup open={menuOpen} onClose={closeMenu} />
     </footer>

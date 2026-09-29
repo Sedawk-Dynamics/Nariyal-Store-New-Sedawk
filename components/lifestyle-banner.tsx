@@ -8,7 +8,7 @@ export default function LifestyleBanner() {
   return (
     <section className="relative overflow-hidden min-h-[520px] flex items-center">
       <Image
-        src="/images/lifestyle-beach.png"
+        src="/images/lifestyle-beach.webp"
         alt="Young woman enjoying fresh coconut water at the beach"
         fill
         className="object-cover"

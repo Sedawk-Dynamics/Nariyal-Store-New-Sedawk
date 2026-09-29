@@ -49,7 +49,7 @@ export default function CoconutInteractive() {
             >
               <div className="relative w-52 h-52 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl bg-secondary/50">
                 <Image
-                  src="/images/hero-coconut.png"
+                  src="/images/hero-coconut.webp"
                   alt="Fresh coconut"
                   fill
                   className="object-cover"
@@ -138,7 +138,7 @@ export default function CoconutInteractive() {
         <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <div className="sm:col-span-2 flex justify-center mb-4">
             <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl">
-              <Image src="/images/hero-coconut.png" alt="Fresh coconut" fill className="object-cover" />
+              <Image src="/images/hero-coconut.webp" alt="Fresh coconut" fill className="object-cover" />
             </div>
           </div>
           {benefits.map((b) => (

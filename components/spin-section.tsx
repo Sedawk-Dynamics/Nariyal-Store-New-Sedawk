@@ -37,7 +37,7 @@ export default function SpinSection() {
           className="relative z-[1] aspect-square w-[max(220px,34vw)] overflow-hidden rounded-full border-[1.5px] border-ink bg-white"
         >
           <Image
-            src="/images/hero-coconut.png"
+            src="/images/hero-coconut.webp"
             alt=""
             fill
             sizes="(min-width: 768px) 34vw, 220px"
