@@ -16,6 +16,17 @@ export default function HeroSection() {
   const [ready, setReady] = useState(false)
   useEffect(() => onIntroDone(() => setReady(true)), [])
 
+  // The pour plays once, from the moment the page is revealed, and rests on its last frame.
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+  useEffect(() => {
+    const video = videoRef.current
+    if (!ready || reducedMotion || !video) return
+    video.currentTime = 0
+    // play() rejects when autoplay is blocked (e.g. low-power mode); the still frame stays.
+    video.play().catch(() => {})
+  }, [ready, reducedMotion])
+
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] })
   const still = reducedMotion ? 0 : 1
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", `${12 * still}%`])
@@ -28,16 +39,28 @@ export default function HeroSection() {
 
   return (
     <section ref={sectionRef} id="home" aria-label="Nariyal Store" className="relative bg-cream">
-      <motion.div style={{ clipPath }} className="relative isolate overflow-hidden bg-[#7d6b5b] text-cream">
+      <motion.div style={{ clipPath }} className="relative isolate overflow-hidden bg-[#a8cbe6] text-cream">
         <motion.div aria-hidden="true" style={{ y: bgY, scale: bgScale }} className="absolute inset-x-0 -top-[10%] -z-10 h-[120%]">
+          {/* First frame while the video loads; the finished drink for reduced motion. */}
           <Image
-            src="/images/lifestyle-beach.webp"
+            src={reducedMotion ? "/images/hero-pour-end.webp" : "/images/hero-pour-poster.webp"}
             alt=""
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_35%]"
+            className="object-cover object-[92%_center]"
           />
+          {!reducedMotion && (
+            <video
+              ref={videoRef}
+              src="/videos/hero-pour.mp4"
+              muted
+              playsInline
+              preload="auto"
+              onPlaying={() => setPlaying(true)}
+              className={`absolute inset-0 h-full w-full object-cover object-[92%_center] ${playing ? "opacity-100" : "opacity-0"}`}
+            />
+          )}
         </motion.div>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/20" />
 
