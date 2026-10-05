@@ -7,10 +7,10 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { X } from "lucide-react"
 
 const POSTER = {
-  src: "/images/menu/pure-coconut-menu.webp",
-  width: 732,
-  height: 1100,
-  alt: "Pure Coconut Experience menu. Refreshing: Coconut Lemonade, Tender Coconut Mojito, Coconut Fruit Punch, Coconut Detox Drink, Coconut Shikanji. Wellness: Coconut Chia Fresca, Herbal Coconut Cooler, Tulsi Ginger Elixir. Indulgent: Coconut Smoothie, Coconut Iced Coffee, Coconut Cold Coffee Frappe, Blue Lagoon Coconut Mocktail.",
+  src: "/images/menu/nariyal-fresh-food-menu.png",
+  width: 1798,
+  height: 875,
+  alt: "Nariyal Store food menu. Refreshing coconut drinks, snacks including aloo patty, vada pav, bun omelette and paneer patty; Classic Veg, Chicken Supreme and Veggie Supreme burgers; coleslaw, tandoori paneer, tomato cheese cucumber, garden fresh and chicken salad sandwiches; soya, chicken and paneer wraps.",
 }
 
 /** The menu poster, springing up over a blurred backdrop and sinking away on close. */
@@ -69,19 +69,21 @@ export default function MenuPopup({ open, onClose }: { open: boolean; onClose: (
                 ? { opacity: 0, transition: { duration: 0.2 } }
                 : { opacity: 0, scale: 0.85, y: 60, rotate: 2, transition: { duration: 0.35, ease: [0.4, 0, 1, 1] } }
             }
-            className="relative flex max-h-full flex-col items-center gap-3"
+            className="relative flex max-h-full w-full max-w-7xl flex-col items-center gap-3"
           >
-            <div className="relative overflow-hidden rounded-[var(--media-radius)] border-[1.5px] border-ink shadow-2xl">
+            <a href={POSTER.src} target="_blank" rel="noopener noreferrer" aria-label="Open food menu image at full size in a new tab" className="relative block w-full overflow-hidden rounded-[var(--media-radius)] border-[1.5px] border-ink shadow-2xl">
               <Image
                 src={POSTER.src}
                 alt={POSTER.alt}
                 width={POSTER.width}
                 height={POSTER.height}
                 priority
-                sizes="(min-width: 768px) 560px, 92vw"
-                className="block h-auto max-h-[calc(100svh-7rem)] w-auto"
+                sizes="(min-width: 1280px) 1280px, 100vw"
+                className="block h-auto max-h-[calc(100svh-9rem)] w-full object-contain"
               />
-            </div>
+            </a>
+
+            <p className="type-mono text-center text-xs text-cream">Select the menu to view it at full size.</p>
 
             <motion.div
               initial={{ opacity: 0, y: 10 }}

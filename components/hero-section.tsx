@@ -1,101 +1,74 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
-import { motion, useMotionTemplate, useReducedMotion, useScroll, useTransform } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 
-import BtnLabel from "@/components/btn-label"
 import RevealText from "@/components/reveal-text"
 import { onIntroDone } from "@/lib/intro"
 
+const slides = [
+  {
+    src: "/images/hero-banners/nariyal-tropical-beach-kiosk.png",
+    title: "Nariyal Store Tropical Beach Kiosk",
+    alt: "Nariyal Store kiosk stocked with fresh coconuts and chilled drinks beside a tropical beach. Pan India delivery, sustainably sourced, hygienic and safe.",
+  },
+  {
+    src: "/images/hero-banners/tropical-nariyal-branding.png",
+    title: "Tropical Nariyal Store Branding Display",
+    alt: "Nariyal Store natural branding solutions: custom logo coconuts and gift packaging on a tropical beach. Same freshness, now with your identity. Pan India delivery, hygienic and safe, eco friendly packaging, ideal for gifting.",
+  },
+]
+
 export default function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null)
   const reducedMotion = useReducedMotion()
   // Entrances wait for the entry loader's wipe (or start at once when there is none).
   const [ready, setReady] = useState(false)
   useEffect(() => onIntroDone(() => setReady(true)), [])
 
-  // The pour plays once, from the moment the page is revealed, and rests on its last frame.
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [playing, setPlaying] = useState(false)
-  useEffect(() => {
-    const video = videoRef.current
-    if (!ready || reducedMotion || !video) return
-    video.currentTime = 0
-    // play() rejects when autoplay is blocked (e.g. low-power mode); the still frame stays.
-    video.play().catch(() => {})
-  }, [ready, reducedMotion])
-
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] })
-  const still = reducedMotion ? 0 : 1
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", `${12 * still}%`])
-  // The photo keeps zooming in as the hero scrolls away.
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1 + 0.3 * still])
-  // As the page scrolls, the full-bleed hero tucks into an inset card with rounded corners.
-  const inset = useTransform(scrollYProgress, [0, 0.35], [0, 10 * still])
-  const radius = useTransform(scrollYProgress, [0, 0.35], [0, 34 * still])
-  const clipPath = useMotionTemplate`inset(0px ${inset}px 0px ${inset}px round 0px 0px ${radius}px ${radius}px)`
+  const [activeSlide, setActiveSlide] = useState(0)
 
   return (
-    <section ref={sectionRef} id="home" aria-label="Nariyal Store" className="relative bg-cream">
-      <motion.div style={{ clipPath }} className="relative isolate overflow-hidden bg-[#a8cbe6] text-cream">
-        <motion.div aria-hidden="true" style={{ y: bgY, scale: bgScale }} className="absolute inset-x-0 -top-[10%] -z-10 h-[120%]">
-          {/* First frame while the video loads; the finished drink for reduced motion. */}
-          <Image
-            src={reducedMotion ? "/images/hero-pour-end.webp" : "/images/hero-pour-poster.webp"}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[92%_center]"
-          />
-          {!reducedMotion && (
-            <video
-              ref={videoRef}
-              src="/videos/hero-pour.mp4"
-              muted
-              playsInline
-              preload="auto"
-              onPlaying={() => setPlaying(true)}
-              className={`absolute inset-0 h-full w-full object-cover object-[92%_center] ${playing ? "opacity-100" : "opacity-0"}`}
+    <section id="home" aria-label="Nariyal Store" className="relative bg-cream">
+      <div className="relative isolate bg-[#153c2c] text-cream">
+        <div aria-hidden="true" className="relative aspect-[1944/809] w-full">
+          {slides.map((slide, index) => (
+            <Image key={slide.src} src={slide.src} alt="" fill priority={index === 0} sizes="100vw"
+              className={`object-contain transition-opacity duration-700 motion-reduce:transition-none ${index === activeSlide ? "opacity-100" : "opacity-0"}`}
             />
-          )}
-        </motion.div>
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-black/20" />
+          ))}
+        </div>
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(15,45,31,0.85)_0%,rgba(15,45,31,0.65)_28%,rgba(15,45,31,0.1)_60%,transparent_100%)] md:block" />
 
-        <div className="gutter grid min-h-[100svh] grid-rows-[1fr_auto] pt-[calc(var(--header-height)+36px+2rem)] pb-[clamp(1.5rem,4vh,2.5rem)]">
-          <div className="self-center text-center md:text-left">
+        <div className="gutter relative grid pt-8 pb-24 md:absolute md:inset-0 md:pt-6 md:pb-6">
+          <div className="self-center text-left md:max-w-[52%]">
             <RevealText
               as="h1"
               text="Drink pure."
               mode="scatter"
               onMount
               play={ready}
-              className="type-display text-[clamp(3.5rem,12.3vw,30rem)] leading-[1.05]"
+              className="type-display text-[clamp(3.5rem,7.5vw,12rem)] leading-[1.05]"
             />
             <motion.p
               initial={reducedMotion ? false : { opacity: 0, clipPath: "inset(0 100% 0 0)" }}
               animate={ready ? { opacity: 1, clipPath: "inset(0 0% 0 0)" } : undefined}
               transition={{ duration: 0.8, delay: 0.55, ease: "easeOut" }}
-              className="type-display mt-[clamp(.5rem,1vw,.75rem)] text-[clamp(1.125rem,2.25vw,2rem)]"
+              className="type-display mt-[clamp(.5rem,1vw,.75rem)] text-[clamp(1.125rem,1.8vw,2rem)]"
             >
               Tender coconut water your body agrees with.
             </motion.p>
           </div>
-
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0, scale: 0.6 }}
-            animate={ready ? { opacity: 1, scale: 1 } : undefined}
-            transition={{ type: "spring", stiffness: 300, damping: 16, delay: 0.8 }}
-            className="justify-self-center"
-          >
-            <Link href="/menu" className="btn-vibe">
-              <BtnLabel>Shop Now</BtnLabel>
-            </Link>
-          </motion.div>
         </div>
-      </motion.div>
+        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full bg-black/35 p-1 text-cream backdrop-blur-sm" aria-label="Banner controls">
+          {slides.map((slide, index) => (
+            <button key={slide.src} type="button" onClick={() => setActiveSlide(index)} aria-label={`Show banner ${index + 1}: ${slide.title}`} aria-pressed={activeSlide === index} className="flex size-11 items-center justify-center rounded-full hover:bg-white/15">
+              <span aria-hidden="true" className={`h-2 rounded-full ${index === activeSlide ? "w-6 bg-cream" : "w-2 bg-cream/40"}`} />
+            </button>
+          ))}
+        </div>
+        <p className="sr-only" aria-live="polite" aria-atomic="true">{slides[activeSlide].alt}</p>
+      </div>
     </section>
   )
 }
